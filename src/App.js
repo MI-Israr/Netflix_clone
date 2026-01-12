@@ -1,10 +1,9 @@
-import logo from "./logo.svg";
-import "./App.css";
+import Register from "./components/Register.js";
 
 function App() {
   return (
-    <div className="App">
-      <h1>app</h1>
+    <div className="w-screen h-screen">
+      <Register />
     </div>
   );
 }
