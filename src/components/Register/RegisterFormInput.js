@@ -8,6 +8,7 @@ const RegisterFormInput = ({
   onBlur,
   error,
   touched,
+  color,
 }) => {
   const hasError = error && touched;
 
@@ -24,7 +25,7 @@ const RegisterFormInput = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={`py-3 px-4 rounded bg-transparent text-white outline-none w-full transition ${
+        className={`py-3 px-4 rounded bg-transparent ${color} outline-none w-full transition ${
           hasError
             ? "border border-red-600"
             : "border border-gray-400"
