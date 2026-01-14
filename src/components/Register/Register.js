@@ -1,5 +1,89 @@
-import { useState } from "react";
+// import { useState } from "react";
+// import { useFormik } from "formik";
+// import RegisterContent from "./RegisterContent";
+// import { registerSchema } from "../../schema/registerSchema";
+// import {
+//   createUserWithEmailAndPassword,
+//   signInWithEmailAndPassword,
+//   updateProfile,
+// } from "firebase/auth";
+// import { auth } from "../../utils/firebase";
+// import { useNavigate } from "react-router-dom";
+
+// const Register = () => {
+//   const [haveAccount, setHaveAccount] = useState(false);
+//   const navigate = useNavigate();
+//   const formik = useFormik({
+//     initialValues: {
+//       name: "",
+//       email: "",
+//       password: "",
+//     },
+//     validationSchema: registerSchema,
+//     context: {
+//       isSignup: !haveAccount,
+//     },
+//     onSubmit: async (values, { setSubmitting, setErrors }) => {
+//       console.log("API KEY:", process.env.REACT_APP_FIREBASE_API_KEY);
+//       try {
+//         if (!haveAccount) {
+//           const userCredential = await createUserWithEmailAndPassword(
+//             auth,
+//             values.email,
+//             values.password
+//           );
+
+//           await updateProfile(userCredential.user, {
+//             displayName: values.name,
+//           });
+//           setHaveAccount(true);
+
+//           formik.setValues({
+//             name: "",
+//             email: values.email,
+//             password: values.password,
+//           });
+//         } else {
+
+//           const userCredential = await signInWithEmailAndPassword(
+//             auth,
+//             values.email,
+//             values.password
+//           );
+
+//           navigate("/browse");
+//         }
+//       } catch (error) {
+//         console.error(error.code);
+
+//         if (error.code === "auth/email-already-in-use") {
+//           setErrors({ email: "Email already in use" });
+//         }
+//         if (error.code === "auth/invalid-credential") {
+//           setErrors({ email: "Invalid email or password" });
+//         }
+//       } finally {
+//         setSubmitting(false);
+//       }
+//     },
+//   });
+//   return (
+//     <div>
+//       <RegisterContent
+//         formik={formik}
+//         haveAccount={haveAccount}
+//         setHaveAccount={setHaveAccount}
+//       />
+//     </div>
+//   );
+// };
+
+// export default Register;
+
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux"; // 🔥 Import useSelector
 import RegisterContent from "./RegisterContent";
 import { registerSchema } from "../../schema/registerSchema";
 import {
@@ -8,11 +92,21 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [haveAccount, setHaveAccount] = useState(false);
   const navigate = useNavigate();
+
+  // 🔥 Get user from Redux store
+  const user = useSelector((store) => store.user);
+
+  // 🛡️ Navigation Guard: Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/browse");
+    }
+  }, [user, navigate]);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -21,59 +115,57 @@ const Register = () => {
     },
     validationSchema: registerSchema,
     context: {
-      isSignup: !haveAccount, // 🔥 THIS IS THE KEY
+      isSignup: !haveAccount,
     },
     onSubmit: async (values, { setSubmitting, setErrors }) => {
-      console.log("API KEY:", process.env.REACT_APP_FIREBASE_API_KEY);
       try {
         if (!haveAccount) {
-          // 🔴 SIGN UP
+          // 🔴 SIGN UP Logic
           const userCredential = await createUserWithEmailAndPassword(
             auth,
             values.email,
             values.password
           );
 
-          // Save display name
+          // Save display name to Firebase Profile
           await updateProfile(userCredential.user, {
             displayName: values.name,
           });
 
-          // 👉 Switch to Sign In
+          // Switch to Sign In mode and pre-fill fields for the user
           setHaveAccount(true);
-
-          // 👉 Keep email + password filled
           formik.setValues({
             name: "",
             email: values.email,
             password: values.password,
           });
         } else {
-          // 🔵 SIGN IN
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            values.email,
-            values.password
-          );
+          // 🔵 SIGN IN Logic
+          await signInWithEmailAndPassword(auth, values.email, values.password);
 
-          // 👉 Redirect to browse page
+          // Redirect to browse page happens automatically via the useEffect above,
+          // but calling navigate here ensures an immediate transition.
           navigate("/browse");
         }
       } catch (error) {
-        console.error(error.code);
+        console.error("Auth Error:", error.code);
 
-        // Friendly Firebase error handling
+        // Friendly Firebase error handling mapped to Formik fields
         if (error.code === "auth/email-already-in-use") {
           setErrors({ email: "Email already in use" });
-        }
-        if (error.code === "auth/invalid-credential") {
+        } else if (error.code === "auth/invalid-credential") {
           setErrors({ email: "Invalid email or password" });
+        } else {
+          setErrors({
+            email: "An unexpected error occurred. Please try again.",
+          });
         }
       } finally {
         setSubmitting(false);
       }
     },
   });
+
   return (
     <div>
       <RegisterContent

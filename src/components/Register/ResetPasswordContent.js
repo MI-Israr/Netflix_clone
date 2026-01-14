@@ -1,6 +1,7 @@
-import logo from "../../assets/images/netflix_logo.png";
+// import logo from "../../assets/images/netflix_logo.png";
 import bgImage from "../../assets/images/resetPassword-page.jpg";
-import { Link } from "react-router-dom";
+import Header from "../Header";
+// import { Link } from "react-router-dom";
 import RegisterFormInput from "./RegisterFormInput";
 
 const ResetPasswordContent = ({ formik }) => {
@@ -22,9 +23,9 @@ const ResetPasswordContent = ({ formik }) => {
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
-
+      <Header/>
       {/* Header */}
-      <div className="relative z-10 flex justify-between items-center px-10 py-6 border-b border-white/10">
+      {/* <div className="relative z-10 flex justify-between items-center px-10 py-6 border-b border-white/10">
         <img src={logo} alt="Netflix" className="w-36" />
         <Link
           to="/"
@@ -32,14 +33,12 @@ const ResetPasswordContent = ({ formik }) => {
         >
           Sign In
         </Link>
-      </div>
+      </div> */}
 
       {/* Content */}
       <div className="relative z-10 flex justify-center items-center min-h-[calc(100vh-120px)]">
         <div className="bg-white w-full max-w-md p-10 rounded-sm shadow-lg">
-          <h1 className="text-2xl font-bold mb-3">
-            Update password
-          </h1>
+          <h1 className="text-2xl font-bold mb-3">Update password</h1>
 
           <p className="text-sm text-gray-700 mb-4">
             We will send you an email with instructions on how to reset your

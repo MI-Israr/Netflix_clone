@@ -10,9 +10,6 @@ const ResetPassword = () => {
       email: "",
     },
     validationSchema: resetPasswordSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
         await sendPasswordResetEmail(auth, values.email);

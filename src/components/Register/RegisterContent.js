@@ -1,5 +1,6 @@
-import logo from "../../assets/images/netflix_logo.png";
+// import logo from "../../assets/images/netflix_logo.png";
 import bgImage from "../../assets/images/netflix-bg.jpg";
+import Header from "../Header";
 import RegisterFormInput from "./RegisterFormInput";
 import { Link } from "react-router-dom";
 
@@ -17,11 +18,12 @@ const RegisterContent = ({ formik, haveAccount, setHaveAccount }) => {
     >
       <div className="absolute inset-0 bg-black/45 pointer-events-none"></div>
       <div className="relative z-0">
-        <div className="py-6 px-12">
+        <Header/>
+        {/* <div className="py-6 px-12">
           <div className="w-40">
             <img src={logo} alt="" />
           </div>
-        </div>
+        </div> */}
         <div className="min-h-[calc(100vh-120px)] flex justify-center items-center ">
           <div className="flex flex-col w-full max-w-md bg-black/75 gap-5 p-6 sm:p-8 md:p-12 ">
             <h1 className="font-bold text-white mb-5 text-2xl sm:text-3xl md:text-4xl">
@@ -77,7 +79,10 @@ const RegisterContent = ({ formik, haveAccount, setHaveAccount }) => {
               )}
 
               {haveAccount && (
-                <button type="button" className="bg-gray-500/40 w-full rounded py-3 text-[18px] font-semibold text-white hover:bg-gray-500/40 transition">
+                <button
+                  type="button"
+                  className="bg-gray-500/40 w-full rounded py-3 text-[18px] font-semibold text-white hover:bg-gray-500/40 transition"
+                >
                   Sign In via link
                 </button>
               )}
