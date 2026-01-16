@@ -19,7 +19,7 @@ import ProtectedRoute from "./components/Register/auth/ProtectedRoute.js"; // ðŸ
 // import Header from "./components/Header.js";
 
 // 1. Define the router OUTSIDE the component (Best Practice)
-const appRouter = createBrowserRouter([
+export const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <Register />,

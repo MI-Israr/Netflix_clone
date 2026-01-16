@@ -1,12 +1,17 @@
 import Header from "../Header";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 
 const Browse = () => {
+  // 🔥 This hook fetches data and stores it in Redux
+  useNowPlayingMovies();
+
   return (
-    <div className="min-h-screen bg-black text-white p-10">
+    <div className="bg-black min-h-screen">
       <Header />
-      <div className="flex items-center justify-center h-[70vh]">
-        <h2 className="text-3xl">Welcome to your dashboard!</h2>
-      </div>
+      <MainContainer />
+      <SecondaryContainer />
     </div>
   );
 };
