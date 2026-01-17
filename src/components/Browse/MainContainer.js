@@ -5,11 +5,9 @@ import VideoBackground from "./VideoBackground";
 const MainContainer = () => {
   const movies = useSelector((store) => store.movies?.nowPlayingMovies);
 
-  // 🛡️ Early Return: If movies haven't loaded yet, don't render anything
   if (!movies) return null;
 
-  // We can pick the first movie as the main featured film
-  const mainMovie = movies[0];
+  const mainMovie = movies[1];
   const { original_title, overview, id } = mainMovie;
 
   return (

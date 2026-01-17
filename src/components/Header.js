@@ -12,13 +12,25 @@ const Header = () => {
   const user = useSelector((store) => store.user);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Check if we are on the Browse page to show the full menu
   const isBrowsePage = location.pathname === "/browse";
 
+  // useEffect(() => {
+  //   const handleScroll = () => setIsScrolled(window.scrollY > 0);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 0);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      // This checks the absolute scroll of the body
+      const isTop = window.scrollY > 10;
+      setIsScrolled(isTop);
+    };
+
+    // Add the listener to the document instead of the window
+    document.addEventListener("scroll", handleScroll, true);
+
+    return () => document.removeEventListener("scroll", handleScroll, true);
   }, []);
 
   const handleSignOut = () => {
@@ -31,7 +43,7 @@ const Header = () => {
     <nav
       className={`fixed top-0 z-50 w-full flex items-center justify-between px-4 py-4 transition-colors duration-500 md:px-12 ${
         isScrolled
-          ? "bg-black"
+          ? "bg-red-600"
           : "bg-gradient-to-b from-black/80 to-transparent"
       }`}
     >

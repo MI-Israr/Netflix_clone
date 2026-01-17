@@ -2,13 +2,19 @@ import Header from "../Header";
 import MainContainer from "./MainContainer";
 import SecondaryContainer from "./SecondaryContainer";
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
+import usePopularMovies from "../hooks/usePopularMovies";
+import useTrendingMovies from "../hooks/useTrendingMovies";
+import useUpcomingMovies from "../hooks/useUpcomingMovies";
 
 const Browse = () => {
-  // 🔥 This hook fetches data and stores it in Redux
   useNowPlayingMovies();
+  useNowPlayingMovies();
+  usePopularMovies();
+  useTrendingMovies();
+  useUpcomingMovies();
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-black w-full min-h-screen">
       <Header />
       <MainContainer />
       <SecondaryContainer />

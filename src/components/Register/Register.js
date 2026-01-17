@@ -24,7 +24,6 @@
 //       isSignup: !haveAccount,
 //     },
 //     onSubmit: async (values, { setSubmitting, setErrors }) => {
-//       console.log("API KEY:", process.env.REACT_APP_FIREBASE_API_KEY);
 //       try {
 //         if (!haveAccount) {
 //           const userCredential = await createUserWithEmailAndPassword(
@@ -97,10 +96,8 @@ const Register = () => {
   const [haveAccount, setHaveAccount] = useState(false);
   const navigate = useNavigate();
 
-  // 🔥 Get user from Redux store
   const user = useSelector((store) => store.user);
 
-  // 🛡️ Navigation Guard: Redirect if already logged in
   useEffect(() => {
     if (user) {
       navigate("/browse");
@@ -120,19 +117,14 @@ const Register = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         if (!haveAccount) {
-          // 🔴 SIGN UP Logic
           const userCredential = await createUserWithEmailAndPassword(
             auth,
             values.email,
             values.password
           );
-
-          // Save display name to Firebase Profile
           await updateProfile(userCredential.user, {
             displayName: values.name,
           });
-
-          // Switch to Sign In mode and pre-fill fields for the user
           setHaveAccount(true);
           formik.setValues({
             name: "",
@@ -140,17 +132,10 @@ const Register = () => {
             password: values.password,
           });
         } else {
-          // 🔵 SIGN IN Logic
           await signInWithEmailAndPassword(auth, values.email, values.password);
-
-          // Redirect to browse page happens automatically via the useEffect above,
-          // but calling navigate here ensures an immediate transition.
           navigate("/browse");
         }
       } catch (error) {
-        console.error("Auth Error:", error.code);
-
-        // Friendly Firebase error handling mapped to Formik fields
         if (error.code === "auth/email-already-in-use") {
           setErrors({ email: "Email already in use" });
         } else if (error.code === "auth/invalid-credential") {

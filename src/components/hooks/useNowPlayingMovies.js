@@ -13,7 +13,6 @@ const useNowPlayingMovies = () => {
         API_OPTIONS
       );
       const json = await data.json();
-      console.log("TMDB Data:", json.results); // Check your console to see if data arrives
       dispatch(addNowPlayingMovies(json.results));
     } catch (error) {
       console.error("TMDB Fetch Error:", error);

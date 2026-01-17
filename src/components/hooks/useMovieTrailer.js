@@ -13,10 +13,8 @@ const useMovieTrailer = (movieId) => {
     );
     const json = await data.json();
 
-    // Filter for a video with type 'Trailer'
     const filterData = json.results.filter((video) => video.type === "Trailer");
 
-    // Fallback: If no trailer exists, pick the first video; otherwise pick the first trailer
     const trailer = filterData.length ? filterData[0] : json.results[0];
 
     dispatch(addTrailerVideo(trailer));
@@ -26,7 +24,7 @@ const useMovieTrailer = (movieId) => {
     if (movieId) {
       getMovieVideos();
     }
-  }, [movieId]); // Runs whenever the featured movie ID changes
+  }, [movieId]);
 };
 
 export default useMovieTrailer;

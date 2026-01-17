@@ -15,10 +15,8 @@ import { addUser, removeUser } from "./utils/userSlice";
 import Browse from "./components/Browse/Browse.js";
 import Register from "./components/Register/Register.js";
 import ResetPassword from "./components/Register/ResetPassword.js";
-import ProtectedRoute from "./components/Register/auth/ProtectedRoute.js"; // 🔥 Import your gatekeeper
-// import Header from "./components/Header.js";
+import ProtectedRoute from "./components/Register/auth/ProtectedRoute.js";
 
-// 1. Define the router OUTSIDE the component (Best Practice)
 export const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -37,7 +35,7 @@ export const appRouter = createBrowserRouter([
     element: <ResetPassword />,
   },
   {
-    path: "*", // Catch-all for unknown URLs
+    path: "*",
     element: <Navigate to="/" replace />,
   },
 ]);
@@ -48,16 +46,14 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in
         const { uid, email, displayName } = user;
         dispatch(addUser({ uid, email, displayName }));
       } else {
-        // User is signed out
         dispatch(removeUser());
       }
     });
 
-    return () => unsubscribe(); // Cleanup the observer
+    return () => unsubscribe(); 
   }, [dispatch]);
 
   return (
