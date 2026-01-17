@@ -4,7 +4,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../assets/images/netflix_logo.png";
-import { NAV_LINKS, USER_AVATAR } from "../utils/constants";
+import { NAV_LINKS, USER_AVATAR, SEARCH_ICON } from "../utils/constants";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const Header = () => {
       {user && (
         <div className="flex items-center gap-5 text-white">
           {isBrowsePage && (
-            <button className="hidden sm:block">Search Icon Here</button>
+            <button className="hidden sm:block">{SEARCH_ICON}</button>
           )}
 
           <div className="group relative flex items-center gap-1 cursor-pointer">
