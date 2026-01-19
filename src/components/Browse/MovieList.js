@@ -174,7 +174,6 @@ const MovieList = ({ title, movies, isTopTen = false }) => {
           <div className="flex gap-6">
             {movies.map((movie, index) => (
               <div key={movie.id} className="relative flex items-center">
-                {/* 🔥 Logic for Top 10 Numbers */}
                 {isTopTen && (
                   <div className="absolute left-[-10px] select-none z-[-1]">
                     <h1
@@ -185,8 +184,6 @@ const MovieList = ({ title, movies, isTopTen = false }) => {
                     </h1>
                   </div>
                 )}
-
-                {/* The Poster */}
                 <div className={isTopTen ? "ml-8 md:ml-16" : ""}>
                   <MovieCard
                     posterPath={movie.poster_path}

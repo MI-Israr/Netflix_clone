@@ -22,12 +22,10 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // This checks the absolute scroll of the body
       const isTop = window.scrollY > 10;
       setIsScrolled(isTop);
     };
 
-    // Add the listener to the document instead of the window
     document.addEventListener("scroll", handleScroll, true);
 
     return () => document.removeEventListener("scroll", handleScroll, true);
@@ -43,7 +41,7 @@ const Header = () => {
     <nav
       className={`fixed top-0 z-50 w-full flex items-center justify-between px-4 py-4 transition-colors duration-500 md:px-12 ${
         isScrolled
-          ? "bg-red-600"
+          ? "bg-black"
           : "bg-gradient-to-b from-black/80 to-transparent"
       }`}
     >
@@ -52,7 +50,6 @@ const Header = () => {
           <img src={logo} alt="Netflix Logo" className="w-24 md:w-40" />
         </Link>
 
-        {/* Only show Nav Links if the user is authenticated and on the Browse page */}
         {user && isBrowsePage && (
           <ul className="hidden lg:flex items-center gap-5 text-sm text-gray-200">
             {NAV_LINKS.map((link) => (
@@ -67,7 +64,6 @@ const Header = () => {
         )}
       </div>
 
-      {/* Only show Profile/Logout if user is logged in */}
       {user && (
         <div className="flex items-center gap-5 text-white">
           {isBrowsePage && (
